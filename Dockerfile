@@ -4,15 +4,15 @@ FROM node:22
 # Crear directorio de la aplicación
 WORKDIR /usr/src/app
 
+# Actualizar npm a la última versión (corrige bug "Exit handler never called")
+RUN npm install -g npm@latest
+
 # Copiar archivos al contenedor
 COPY package*.json ./
 COPY index.js .
 
-# Instalar dependencias (con reintentos para evitar fallos intermitentes de red)
-RUN npm config set fetch-retries 5 && \
-    npm config set fetch-retry-mintimeout 20000 && \
-    npm config set fetch-retry-maxtimeout 120000 && \
-    npm install
+# Instalar dependencias
+RUN npm install --no-audit --no-fund
 
 # Copiar el resto de los archivos
 COPY users.json .       
