@@ -11,6 +11,9 @@ RUN npm install -g npm@latest
 COPY package*.json ./
 COPY index.js .
 
+# Forzar el uso del registro público de npm (evita certificado expirado de registro privado)
+RUN npm config set registry https://registry.npmjs.org/
+
 # Instalar dependencias
 RUN npm install --no-audit --no-fund
 
